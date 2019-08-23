@@ -321,7 +321,7 @@ var MysqlDriver = Base.extend({
     var referencedColumns = columns.map(function (key) { return fieldMapping[key]; });
     var sql = util.format('ALTER TABLE `%s` ADD CONSTRAINT `%s` FOREIGN KEY (%s) REFERENCES `%s` (%s) ON DELETE %s ON UPDATE %s',
       tableName, keyName, columns.reduce((tot, next) => `${tot}, ${next}`), referencedTableName,
-      columns.reduce((tot, next) => `${tot}, ${next}`), rules.onDelete || 'NO ACTION', rules.onUpdate || 'NO ACTION');
+      referencedColumns.reduce((tot, next) => `${tot}, ${next}`), rules.onDelete || 'NO ACTION', rules.onUpdate || 'NO ACTION');
 
     return this.runSql(sql).nodeify(callback);
   },
